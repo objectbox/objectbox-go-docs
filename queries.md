@@ -16,7 +16,7 @@ devices, err := query.Find()
 
 ### Building queries
 
-The query in the code above uses a function `HasPrefix` on a device location. Where does this come from? ObjectBox generates a `Device_` struct for you to reference available properties conveniently. This also allows code completion in your IDE and avoids typos: correctness is checked at compile time \(string based queries would only be checked at run-time\).
+The query in the code above uses a function `HasPrefix` on a device location. Where does this come from? ObjectBox generates a `Device_` struct for you to reference available properties conveniently. This also allows code completion in your IDE and avoids typos: correctness is checked at compile time (string based queries would only be checked at run-time).
 
 Let's say you have the following entity defined in your package:
 
@@ -46,7 +46,29 @@ You can use `Device_` to construct type-specific conditions in place and combini
 box.Query(Device_.Profile.Equals(42), Device_.Location.HasPrefix("US-", false))
 ```
 
-### Reusing Queries and Parameters <a id="reusing-queries-and-parameters"></a>
+Possibly, you can be more explicit by using the `All` function:
+
+```go
+box.Query(objectbox.All(
+    Device_.Profile.Equals(42),
+    Device_.Location.HasPrefix("US-", false),
+))
+```
+
+While if you want to query objects that satisfy one of the given conditions, use the `Any` function:
+
+```go
+box.Query(objectbox.Any(
+    Device_.Name.Equals("Dev1", false),
+    Device_.Name.Equals("Dev2", false),
+))
+```
+
+In this example, the query selects devices named either "Dev1" or "Dev2".
+
+You can obviously build up more complex queries by nesting `Any` and `All` conditions.
+
+### Reusing Queries and Parameters <a href="#reusing-queries-and-parameters" id="reusing-queries-and-parameters"></a>
 
 If you frequently run a `Query` you should cache the `Query` object and re-use it. To make a `Query` more reusable you can change the values, or query parameters, of each condition you added even after the `Query` is built. Let's see how.
 
@@ -64,7 +86,7 @@ query.SetStringParams(User_.FirstName, "Joe")
 joes, _ := query.Find()
 ```
 
-### Alias/As <a id="alias"></a>
+### Alias/As <a href="#alias" id="alias"></a>
 
 So you might already be wondering, what happens if you have more than one condition using the same property? For this purpose you can **assign each condition an alias** by calling `Alias()` right after specifying the condition:
 
@@ -92,19 +114,19 @@ query.SetInt64Params(minAgeAlias, 50)
 query.SetInt64Params(maxAgeAlias, 100)
 ```
 
-### Limit, Offset, and Pagination <a id="limit-offset"></a>
+### Limit, Offset, and Pagination <a href="#limit-offset" id="limit-offset"></a>
 
-Sometimes you only need a subset of a query, for example the first 10 elements. This is especially helpful \(and resourceful\) when you have a high number of entities and you cannot limit the result using query conditions only. The built `Query` has  `.Offset()` and `.Limit()` methods to help you do that
+Sometimes you only need a subset of a query, for example the first 10 elements. This is especially helpful (and resourceful) when you have a high number of entities and you cannot limit the result using query conditions only. The built `Query` has  `.Offset()` and `.Limit()` methods to help you do that
 
 ```go
 query := box.Query(User_.FirstName.Equals("Joe", false))
 joes, err := query.Offset(10).Limit(5).Find()
 ```
 
-`Offset(n uint64):` the first `n` results are skipped.  
+`Offset(n uint64):` the first `n` results are skipped.\
 `Limit(n uint64):` at most `n` results of this query are returned.
 
-### Ordering results <a id="notable-conditions"></a>
+### Ordering results <a href="#notable-conditions" id="notable-conditions"></a>
 
 In addition to specifying conditions you can order the returned results:
 
@@ -113,7 +135,7 @@ query := box.Query(User_.FirstName.Equals("Joe", false), User_.Age.OrderDesc())
 joes, err := query.Find()
 ```
 
-You can combine multiple order parameters and options \(some options are only available for certain data types, e.g. strings have case-sensitive ordering option\), such as:
+You can combine multiple order parameters and options (some options are only available for certain data types, e.g. strings have case-sensitive ordering option), such as:
 
 ```go
 query := box.Query(
@@ -128,7 +150,7 @@ joes, err := query.Find()
 
 In addition to expected conditions like `Equals()`, `NotEquals()`, `GreaterThan()` and `LessThan()` there are also conditions like:
 
-* `Between()` to filter for values that are between the given two \(inclusive\)
+* `Between()` to filter for values that are between the given two (inclusive)
 * `In()` and `NotIn()` to filter for values that match any in the given set,
 * `HasPrefix()`, `HasSuffix()` and `Contains()` for extended String filtering.
 
@@ -138,14 +160,14 @@ You have a few options how to handle the results of a query:
 
 * `Find()` returns a slice of the matching objects,
 * `FindIds()`fetches just the IDs of the matching objects as a slice, which can be more efficient in case you don't need the whole object,
-* `Remove()` deletes all the matching objects from the database \(in a single transaction\),
+* `Remove()` deletes all the matching objects from the database (in a single transaction),
 * `Count()` gives you the number of the objects that match the query,
-* `Limit()` and `Offset()` let you select just part of the result \(e. g. for paging\)
+* `Limit()` and `Offset()` let you select just part of the result (e. g. for paging)
 * `DescribeParams()` is a utility function which returns a human-readable representation of the query.
 
-### Querying linked objects \(relations\) <a id="ordering-results"></a>
+### Querying linked objects (relations) <a href="#ordering-results" id="ordering-results"></a>
 
-After creating a relation between entities, you might want to add a query condition for a property that only exists in the related entity. In SQL this is solved using JOINs. ObjectBox provides query links instead.   
+After creating a relation between entities, you might want to add a query condition for a property that only exists in the related entity. In SQL this is solved using JOINs. ObjectBox provides query links instead. \
 Let's see how this works using an example.
 
 Assume there is a `Person` that can be associated with multiple `Address` entities:
@@ -204,7 +226,7 @@ The returned items are **not in any particular order**, even if you did specify 
 
 ### Handling null values
 
-The argument to `FindStrings()` \(and similar for other types\) is a value to be used if the given field is `nil` in the database. **By default, i.e. when you pass \`nil\` as the argument, these values are not returned.** However, you can specify a replacement value to return if a property is null:
+The argument to `FindStrings()` (and similar for other types) is a value to be used if the given field is `nil` in the database. **By default, i.e. when you pass \`nil\` as the argument, these values are not returned.** However, you can specify a replacement value to return if a property is null:
 
 ```go
 // includes 'unknown' instead of each null email
@@ -229,11 +251,10 @@ names = pq.FindStrings(nil)
 
 ### Aggregating values
 
-Property queries also offer aggregate functions to directly calculate the minimum, maximum, average, sum and count of all found \(non-null\) values:
+Property queries also offer aggregate functions to directly calculate the minimum, maximum, average, sum and count of all found (non-null) values:
 
 * `Min()` / `MinDouble()`: Finds the minimum value for the given property over all objects matching the query.
 * `Max()` / `MaxFloat64()`: Finds the maximum value.
 * `Sum()` / `SumFloat64()`: Calculates the sum of all values. _Note: the integer version detects overflows and returns an error in that case._
-* `Average()` : Calculates the average \(always a `float64`\) of all values.
+* `Average()` : Calculates the average (always a `float64`) of all values.
 * `Count()`: returns the number of results. This is faster than finding and getting the length of the result array. Can be combined with `Distinct()` to count only the number of distinct values.
-

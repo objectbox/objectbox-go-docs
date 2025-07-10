@@ -13,4 +13,3 @@
 * [FAQ](faq.md)
 * [ObjectBox Golang](https://godoc.org/github.com/objectbox/objectbox-go/objectbox)
 * [ObjectBox C/C++ Docs](https://app.gitbook.com/@objectbox/s/objectbox-cpp/)
-

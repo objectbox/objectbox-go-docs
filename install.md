@@ -46,7 +46,7 @@ bash <(curl -s https://raw.githubusercontent.com/objectbox/objectbox-go/main/ins
 ### Manual installation
 
 **C binary library**\
-****You can run the following`download.sh` script (press Y to install the library to a system-wide folder when it asks you). you can remove the temporary "objectboxlib" directory created by this step afterwards.
+You can run the following`download.sh` script (press Y to install the library to a system-wide folder when it asks you). you can remove the temporary "objectboxlib" directory created by this step afterwards.
 
 ```bash
 mkdir objectboxlib && cd objectboxlib
