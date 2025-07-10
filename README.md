@@ -9,9 +9,30 @@ description: >-
 
 Your opinion matters to us! To make ObjectBox better for our users, we have set up an [Anonymous Feedback Form](https://forms.gle/bdktGBUmL4m48ruj7). Please do fill this in (it only takes 2 minutes). Every response is highly appreciated. To rate this documentation, you can use the "Was this page helpful?" smiley at the end of each page.
 
-Otherwise, feel free to open an [issue on GitHub](https://github.com/objectbox/objectbox-go/issues) or send us your comments to contact\[at]objectbox.io - Thank you! - and if you like what you see, we also appreciate a shoutout :)
+Otherwise, feel free to open an [issue on GitHub](https://github.com/objectbox/objectbox-go/issues) or send us your comments to contact\[at]objectbox.io - Thank you! And if you like what you see, we also appreciate a shout-out...
 
 ## Changelog
+
+### v1.9.0 (2025-03-11)
+
+* Update ObjectBox Generator to 4.0.0
+* Update objectbox-c to v4.2.0
+* Sync: JWT credentials/authentication
+* Sync: Allow clients to pass multiple SyncCredentials for authentication
+* Fixed a version check that prevented using newer ObjectBox core version
+* Dropped support for Go 1.11 (this version was tested with Go versions 1.12 - 1.24)
+
+### v1.8.1 (2024-08-29)
+
+* Fixed a regression for 32-bit platforms that could result in crashes
+* Update FlatBuffers to v23.5.26
+* Update ObjectBox Generator to 0.14
+
+### v1.8.0 (2024-02-19)
+
+* In-memory databases (provide a "directory" option like "memory:" + DB name)
+* Update objectbox-c to v0.21.0 with many improvements ([details](https://cpp.objectbox.io/#id-0.21.0-2024-02-13))
+* Fix leaks for Box functions taking multiple IDs
 
 ### v1.7.0 (2023-06-23)
 

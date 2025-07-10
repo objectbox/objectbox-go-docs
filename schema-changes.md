@@ -125,7 +125,7 @@ type Task struct {
 This solution useful if you don't care about the original data at all = it will be lost.
 {% endhint %}
 
-&#x20;**Step 1:** Add an empty \`objectbox:"uid"\` annotation to the **** property you want to reset:
+&#x20;**Step 1:** Add an empty \`objectbox:"uid"\` annotation to the property you want to reset:
 
 ```go
 type Task struct {
